@@ -1,5 +1,5 @@
 const express = require('express');
-const shortid = require('shortid');
+
 // set up server
 const server = express();
 
@@ -7,14 +7,14 @@ const server = express();
 server.use(express.json()); //parse JSON from the body
 
 // users data used for our endpoints
-const users = [
+let users = [
     {
-        id: shortid.generate(),
+        id: 1,
         name: "Jane Doe", // String, required
         bio: "Not Tarzan's Wife, another Jane"  // String, required
       },
       {
-        id: shortid.generate(),
+        id: 2,
         name: "Dane Joe", // String, required
         bio: "No relation to Jane Doe"  // String, required
       }
@@ -28,8 +28,7 @@ server.get("/api/users", (req, res) => {
     } catch(error) {
         // if can't retrieve users for some reason
         res.status(500).json({ errorMessage: "The users information could not be retrieved"})
-    }
-    
+    }    
 });
 
 server.get("/api/users/:id", (req, res) => {
@@ -64,9 +63,32 @@ server.post("/api/users", (req, res) => {
         } else {
             res.status(500).json({ errorMessage: "There was an error while saving the user to the database"})
         }        
-    }
-    
+    }    
 });
+
+// handle DELETE requests
+server.delete("/api/users/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const userToDelete = users.find(user => user.id === id);
+    if(userToDelete){
+        // update users / delete user with specified id
+        const updatedUsers = users.filter(user => user.id !== id);
+        users = updatedUsers;
+        // check to make sure userToDelete was successfully removed from users
+        // if all went well, 'deleted' should return undefined
+        const deleted = users.find(user => user.id === id);
+        if(!deleted){
+            // if 'deleted' is falsey, send success status and deleted user
+            res.status(200).json(userToDelete);
+        } else {
+            // send error status
+            res.status(500).json({ errorMessage: "The user could not be removed"})
+        }        
+    } else {
+        // send error status + message
+        res.status(404).json({ errorMessage: "The user with the specified ID does not exist"})
+    }
+})
 
 //set up port
 const port = 5000;
