@@ -1,27 +1,76 @@
 const express = require('express');
+const cors = require('cors');
 
 // set up server
 const server = express();
 
 // use middleware
 server.use(express.json()); //parse JSON from the body
+server.use(cors());
 
 // users data used for our endpoints
 let users = [
     {
         id: 1,
-        name: "Jane Doe", // String, required
-        bio: "Not Tarzan's Wife, another Jane"  // String, required
+        name: "Jackson Ogles", // String, required
+        bio: "Dream team lead"  // String, required
       },
       {
         id: 2,
-        name: "Dane Joe", // String, required
-        bio: "No relation to Jane Doe"  // String, required
+        name: "Christine Carpenter", // String, required
+        bio: "Awesome section lead"  // String, required
       },
       {
         id: 3,
-        name: "Tarzan", // String, required
-        bio: "Because why not"  // String, required
+        name: "Sean Naleid", // String, required
+        bio: "Another awesome section lead"  // String, required
+      },
+
+
+    {
+        id: 4,
+        name: "Alp Karavil", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 5,
+        name: "Craig John Donaldson Jr", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 6,
+        name: "David Shestopal", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 7,
+        name: "Josiah Roa", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 8,
+        name: "Justin Kuenzinger", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 9,
+        name: "Katya Pavlopoulos", // String, required
+        bio: "Fullstack web developer, obviously awesome because she built this directory."  // String, required
+      },
+      {
+        id: 10,
+        name: "Kenji Greene", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 11,
+        name: "Key Bristol", // String, required
+        bio: "Fullstack web developer, 10/10 would work with him again."  // String, required
+      },
+      {
+        id: 12,
+        name: "Natalia Beckstead", // String, required
+        bio: "Fullstack web developer, 10/10 would work with her again."  // String, required
       }
 ]
 
