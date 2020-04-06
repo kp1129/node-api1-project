@@ -17,6 +17,11 @@ let users = [
         id: 2,
         name: "Dane Joe", // String, required
         bio: "No relation to Jane Doe"  // String, required
+      },
+      {
+        id: 3,
+        name: "Tarzan", // String, required
+        bio: "Because why not"  // String, required
       }
 ]
 
@@ -88,7 +93,42 @@ server.delete("/api/users/:id", (req, res) => {
         // send error status + message
         res.status(404).json({ errorMessage: "The user with the specified ID does not exist"})
     }
-})
+});
+
+// handle PUT requests
+server.put("/api/users/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const userToUpdate = users.find(user => user.id === id);
+    if(userToUpdate){
+        if(!req.body.name || !req.body.bio){
+            // missing info, send error status + message
+            res.status(400).json({ errorMessage: "Please provide name and bio for the user"});
+        } else {
+            const updatedUsers = users.map(user => {
+                if(user.id === id){
+                    return req.body;
+                } else {
+                    return user;
+                }
+            });
+            users = updatedUsers;
+            // checking to make sure user got updated successfully
+            let updated = users.find(user => user.id === id);
+            // if all went well, the expression below should evaluate to true
+            updated = updated.id === req.body.id && updated.name === req.body.name && updated.bio === req.body.bio
+            if(updated){
+                // send success status + modified user
+                res.status(200).json(req.body);
+            } else {
+                 // send error status + message
+                res.status(500).json({ errorMessage: "The user information could not be modified"})
+            }
+        }
+    } else {
+        // no id match, send error status + message
+        res.status(404).json({ errorMessage: "The user with the specified ID does not exist"});
+    }
+});
 
 //set up port
 const port = 5000;
