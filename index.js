@@ -61,7 +61,7 @@ server.post("/api/users", (req, res) => {
     } else {
         users.push(newUser);
         // check to make sure new user got saved
-        const userSaved = users.find(user => user.id === newUser.id);
+        const userSaved = users.find(user => user.name === newUser.name);
         if(userSaved){
             // send success status, newly created user document
             res.status(201).json(newUser);
